@@ -114,6 +114,7 @@ rate(namedprocess_namegroup_cpu_seconds_total{groupname="your_process_name"}[5m]
 ```
 
 ## Project structure
+```
 .
 ├── docker-compose.yml     # Defines the local services (Prometheus, Loki, etc.)
 ├── loki/
@@ -127,3 +128,4 @@ rate(namedprocess_namegroup_cpu_seconds_total{groupname="your_process_name"}[5m]
 │   └── prometheus.yml     # Prometheus configuration (scrape targets)
 └── promtail/
     └── promtail.yml       # Promtail configuration (log file locations)
+```
