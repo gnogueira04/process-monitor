@@ -8,12 +8,12 @@ Local stack (Managed by Docker Compose)
 - Process Exporter: Scrapes metrics from specified processes (by name) and exposes them for Prometheus.
 - Promtail: The log collection agent that tails log files and pushes them to Loki.
 
-# External Components
+# External components
 
 - Grafana (Remote): The visualization platform.
 - ngrok: A reverse proxy service that creates a secure tunnel from your local machine to the public internet.
 
-# Getting Started
+# Setup
 
 ## Prerequisites
 - Docker & Docker Compose: To run the local services.
@@ -59,7 +59,7 @@ Add your ngrok authtoken. You can either paste it into the ngrok.yml file or add
 ngrok config add-authtoken <YOUR_AUTHTOKEN>
 ```
 
-## 2. Running the Stack
+## 2. Running the stack
 ### Start the Local Services:
 Launch the Prometheus, Loki, Promtail, and process exporter containers.
 
@@ -67,7 +67,7 @@ Launch the Prometheus, Loki, Promtail, and process exporter containers.
 docker-compose up -d
 ```
 
-### Start the Secure Tunnel:
+### Start ngrok tunnel:
 In a separate terminal, run ngrok to create the public URLs for Prometheus and Loki.
 
 ```
@@ -83,19 +83,19 @@ Navigate to Connections > Data Sources.
 
 ### Add Prometheus:
 
-Select Prometheus.
+1. Select Prometheus.
 
-For the URL, use the `https-` forwarding URL for Prometheus from your ngrok terminal.
+2. For the URL, use the `https-` forwarding URL for Prometheus from your ngrok terminal.
 
-Click Save & Test.
+3. Click Save & Test.
 
 ### Add Loki:
 
-Select Loki.
+1. Select Loki.
 
-For the URL, use the `https-` forwarding URL for Loki from your ngrok terminal.
+2. For the URL, use the `https-` forwarding URL for Loki from your ngrok terminal.
 
-Click Save & Test.
+3. Click Save & Test.
 
 ## 4. Query the data
 
@@ -106,14 +106,14 @@ Use the job label you defined in `promtail.yml`.
 {job="my_app"}
 ```
 
-### Prometheus Query (Metrics):
+### Prometheus query (Metrics):
 Query for metrics from the process exporter. For example, to get CPU usage:
 
 ```
 rate(namedprocess_namegroup_cpu_seconds_total{groupname="your_process_name"}[5m])
 ```
 
-## Project Structure
+## Project structure
 .
 ├── docker-compose.yml     # Defines the local services (Prometheus, Loki, etc.)
 ├── loki/
