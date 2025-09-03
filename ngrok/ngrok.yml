@@ -1,0 +1,9 @@
+version: "2"
+tunnels:
+    prometheus:
+        proto: http
+        addr: 9090
+    loki:
+        proto: http
+        addr: 3100
+authtoken: <AUTH_TOKEN>
