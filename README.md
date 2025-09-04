@@ -64,7 +64,7 @@ ngrok config add-authtoken <YOUR_AUTHTOKEN>
 Launch the Prometheus, Loki, Promtail, and process exporter containers.
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Start ngrok tunnel:
