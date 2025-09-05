@@ -37,7 +37,7 @@ process_names:
     - your_process_name # e.g., node, python, etc.
 ```
 
-### Target a Log File (Logs):
+### Target a log file (Logs):
 Open promtail/promtail.yml and update the __path__ to point to the log file of your target process. Also, update the job label to something descriptive.
 
 ```
@@ -49,6 +49,23 @@ scrape_configs:
     labels:
       job: my_app # This label will be used in Grafana
       __path__: /path/to/your/app.log # IMPORTANT: Update this path
+```
+
+Update the path to the log files on docker compose so promtail can access it.
+
+```
+promtail:
+  image: grafana/promtail:latest
+  container_name: promtail
+  command: ["-config.file=/etc/promtail/promtail.yml"]
+  ports: 
+    - "9080:9080"
+  volumes:
+    - ./promtail:/etc/promtail
+    - /path/to/your/logs:/path/to/your/logs # Update this
+  networks:
+    - lgtm-net
+  restart: unless-stopped
 ```
 
 ### Configure ngrok:
