@@ -6,4 +6,7 @@ tunnels:
     loki:
         proto: http
         addr: 3100
-authtoken: <AUTH_TOKEN>
+    promtail:
+        proto: http
+        addr: 9080
+authtoken: 32CS6KZYbe82OYjoKp6dWwgu7uS_4c2HyVHUHHZjQiwF8tNYs
