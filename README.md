@@ -37,7 +37,7 @@ process_names:
     - your_process_name # e.g., node, python, etc.
 ```
 
-### Target a log file (Logs):
+### Target a log file:
 Open promtail/promtail.yml and update the __path__ to point to the log file of your target process. Also, update the job label to something descriptive.
 
 ```
