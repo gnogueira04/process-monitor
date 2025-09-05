@@ -70,6 +70,16 @@ promtail:
 
 ### Configure ngrok:
 
+Download and install ngrok:
+
+```
+wget https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-arm64.tgz
+```
+
+```
+tar -xvzf ngrok-v3-stable-linux-arm64.tgz -C /usr/local/bin
+```
+
 Open ngrok.yml and ensure the ports for prometheus (9090) and loki (3100) are correct.
 
 Add your ngrok authtoken. You can either paste it into the ngrok.yml file or add it globally with the command:
