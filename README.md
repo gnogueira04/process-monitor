@@ -35,10 +35,12 @@ Open `process-exporter/config.yml` and change chrome to the name of the process 
 process_names:
   - comm:
     - your_process_name # e.g., node, python, etc.
+```
 
-Target a Log File (Logs):
+### Target a Log File (Logs):
 Open promtail/promtail.yml and update the __path__ to point to the log file of your target process. Also, update the job label to something descriptive.
 
+```
 scrape_configs:
 - job_name: my_app_logs # Change this
   static_configs:
