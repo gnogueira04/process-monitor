@@ -1,3 +1,20 @@
+# process_names:
+#   - name: 'py-{{.Matches.script_name}}'
+#     comm:
+#       - python3
+#     cmdline:
+#       - 'python3.*(?P<script_name>data_publisher\.py)'
+
 process_names:
-  - comm:
-    - chrome
+  - name: '{{.Matches.script}}-{{.Matches.id}}'
+    comm:
+      - python3
+    cmdline:
+      - 'python3.*(?P<script>data_publisher\.py).*(?P<id>3409186a-50f3-401a-a1fa-3132320d9843)'
+
+  # optional fallback to any other data_publisher
+  # - name: 'data_publisher-other'
+    # comm:
+      # - python3
+    # cmdline:
+      # - 'python3.*data_publisher\.py'

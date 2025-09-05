@@ -46,7 +46,7 @@ services:
       - "9080:9080"
     volumes:
       - ./promtail:/etc/promtail
-      - /var/log/my_apps:/var/log/my_apps 
+      - /root/process-monitor:/root/process-monitor
     networks:
       - lgtm-net
     restart: unless-stopped

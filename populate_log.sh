@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LOG_FILE="/var/log/my_apps/chrome.log"
+LOG_FILE="/root/process-monitor/app.log"
 LOG_DIR=$(dirname "$LOG_FILE")
 
 if [ "$(id -u)" -ne 0 ]; then

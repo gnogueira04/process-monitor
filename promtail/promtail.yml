@@ -9,10 +9,10 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-- job_name: process_chrome 
+- job_name: python_data_publisher
   static_configs:
   - targets:
       - localhost
     labels:
-      job: chrome_logs 
-      __path__: /var/log/my_apps/chrome.log 
+      job: python_data_publisher_logs
+      __path__: /root/process-monitor/app.log
