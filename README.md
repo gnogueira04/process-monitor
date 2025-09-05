@@ -2,7 +2,7 @@ This project uses uses Prometheus for metrics, Loki for logs, and ngrok to expos
 
 # Components
 
-Local stack (Managed by Docker Compose)
+Local stack (managed by Docker Compose)
 - Prometheus: A time-series database that scrapes and stores metrics.
 - Loki: A log aggregation system designed to be cost-effective and easy to operate.
 - Process Exporter: Scrapes metrics from specified processes (by name) and exposes them for Prometheus.
