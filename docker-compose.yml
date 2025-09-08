@@ -46,7 +46,7 @@ services:
       - "9080:9080"
     volumes:
       - ./promtail:/etc/promtail
-      - /root/process-monitor:/root/process-monitor
+      - /root/ai-agent-service/ai-agent-service/logs:/root/ai-agent-service/ai-agent-service/logs
     networks:
       - lgtm-net
     restart: unless-stopped

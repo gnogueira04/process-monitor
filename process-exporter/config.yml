@@ -1,20 +1,14 @@
-# process_names:
-#   - name: 'py-{{.Matches.script_name}}'
-#     comm:
-#       - python3
-#     cmdline:
-#       - 'python3.*(?P<script_name>data_publisher\.py)'
-
 process_names:
-  - name: '{{.Matches.script}}-{{.Matches.id}}'
+  - name: 'ppl_detection_double_check-stream{{.Matches.stream_id}}'
     comm:
-      - python3
+      - uvicorn
+      - python3.9
     cmdline:
-      - 'python3.*(?P<script>data_publisher\.py).*(?P<id>3409186a-50f3-401a-a1fa-3132320d9843)'
+      - '.*uvicorn\s+ppl_detection_double_check_stream(?P<stream_id>\d+).*'
 
-  # optional fallback to any other data_publisher
-  # - name: 'data_publisher-other'
-    # comm:
-      # - python3
-    # cmdline:
-      # - 'python3.*data_publisher\.py'
+  - name: 'checkdoor_ai_agent-stream{{.Matches.stream_id}}'
+    comm:
+      - uvicorn
+      - python3.9
+    cmdline:
+      - '.*uvicorn\s+checkdoor_ai_agent_stream(?P<stream_id>\d+).*'
