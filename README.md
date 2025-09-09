@@ -85,11 +85,11 @@ promtail:
   restart: unless-stopped
 ```
 
-### Configuration Explained
+### Configuration explained
 
 This section details how the example configurations for process-exporter and promtail work and how they directly relate to the queries you'll use in Grafana.
 
-#### Process Monitoring (`process-exporter/config.yml`)
+#### Process monitoring (`process-exporter/config.yml`)
 
 The goal of this configuration is to find your running services and group their metrics under a single, meaningful name.
 
@@ -109,7 +109,7 @@ process_names:
   rate(namedprocess_namegroup_cpu_seconds_total{groupname="ppl_detection_double_check-stream02"}[5m])
   ```
 
-#### Log Collection (`promtail/promtail.yml`)
+#### Log collection (`promtail/promtail.yml`)
 
 The goal here is to find all log files for a given service and assign a consistent label to them.
 
@@ -133,7 +133,7 @@ scrape_configs:
 
 
 ## 2. Running the stack
-### Start the Local Services:
+### Start the local services:
 Launch the Prometheus, Loki, Promtail, and process exporter containers.
 
 ```
