@@ -1,4 +1,4 @@
-This project uses uses Prometheus for metrics, Loki for logs, and an EC2 instance with Nginx as a gateway to expose the local data sources to the internet for Grafana to access.
+This stack uses uses Prometheus for metrics, Loki for logs, and an EC2 instance with Nginx as a gateway to expose the local data sources to the internet for Grafana to access.
 
 # Components
 
