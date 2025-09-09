@@ -19,9 +19,9 @@ Local stack (managed by Docker Compose)
 
 Following these standards will make the setup easier.
 
-- **One Log File per Service Instance**: For clear log separation, each distinct service should write to its own uniquely named log file (e.g., `service_A.log`, `service_B.log`). This allows Promtail to easily assign a specific and accurate label to each log stream.
-- **Descriptive Process Commands**: Launch the applications with descriptive command-line arguments. Including unique identifiers (like a service name or stream ID) is crucial for process-exporter's regex to dynamically group and label the metrics.
-- **Consistent Labeling**: Aim for consistent labels between the metrics and logs. For instance, the groupname in Prometheus should correspond to the service label in Loki where possible.
+- **One log file per service instance**: For clear log separation, each distinct service should write to its own uniquely named log file (e.g., `service_A.log`, `service_B.log`). This allows Promtail to easily assign a specific and accurate label to each log stream.
+- **Descriptive process commands**: Launch the applications with descriptive command-line arguments.
+- **Consistent labeling**: Aim for consistent labels between the metrics and logs. For instance, the groupname in Prometheus should correspond to the service label in Loki where possible.
 
 # Setup
 
