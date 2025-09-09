@@ -9,10 +9,18 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-- job_name: python_data_publisher
+- job_name: ppl_detection
   static_configs:
   - targets:
       - localhost
     labels:
-      job: python_data_publisher_logs
-      __path__: /root/process-monitor/app.log
+      service: ppl_detection_double_check
+      __path__: /root/ai-agent-service/ai-agent-service/logs/ppl_detection_double_check.log
+
+- job_name: checkdoor
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      service: checkdoor_ai_agent_stream05
+      __path__: /root/ai-agent-service/ai-agent-service/logs/checkdoor_ai_agent_stream05.log
