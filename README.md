@@ -195,8 +195,8 @@ In this example, we'll map public port `9091` to AIBOX-2's Prometheus and `3101`
 
   1. Navigate to the EC2 Security Group in the AWS Console.
   2. Add the following new inbound rules:
-    - Custom TCP (Port `9091`): Source `Anywhere (0.0.0.0/0)` for AIBOX-2's Prometheus.
-    - Custom TCP (Port `3101`): Source `Anywhere (0.0.0.0/0)` for AIBOX-2's Loki.
+  - Custom TCP (Port `9091`): Source `Anywhere (0.0.0.0/0)` for AIBOX-2's Prometheus.
+  - Custom TCP (Port `3101`): Source `Anywhere (0.0.0.0/0)` for AIBOX-2's Loki.
 
 #### Update the nginx configuration
 
