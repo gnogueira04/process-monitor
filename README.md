@@ -209,27 +209,27 @@ Now, add new rules to the Nginx configuration on the EC2 instance to proxy traff
      ```
   3. Add the following new `server` blocks to the end of the file. Replace the placeholders with your IPs.
      ```
-    # --- New services on AIBOX-2 ---
-    
-    # Forward public port 9091 to AIBOX-2's Prometheus
-    server {
-        listen 9091;
-        server_name <EC2_ELASTIC_IP>;
-    
-        location / {
-            proxy_pass http://<AIBOX_2_TAILSCALE_IP>:9090;
-        }
-    }
-    
-    # Forward public port 3101 to AIBOX-2's Loki
-    server {
-        listen 3101;
-        server_name <EC2_ELASTIC_IP>;
-    
-        location / {
-            proxy_pass http://<AIBOX_2_TAILSCALE_IP>:3100;
-        }
-    }
+      # --- New services on AIBOX-2 ---
+      
+      # Forward public port 9091 to AIBOX-2's Prometheus
+      server {
+          listen 9091;
+          server_name <EC2_ELASTIC_IP>;
+      
+          location / {
+              proxy_pass http://<AIBOX_2_TAILSCALE_IP>:9090;
+          }
+      }
+      
+      # Forward public port 3101 to AIBOX-2's Loki
+      server {
+          listen 3101;
+          server_name <EC2_ELASTIC_IP>;
+      
+          location / {
+              proxy_pass http://<AIBOX_2_TAILSCALE_IP>:3100;
+          }
+      }
      ```
   4. Test and restart Nginx:
      ```
