@@ -5,7 +5,7 @@ This stack uses uses Prometheus for metrics, Loki for logs, and an EC2 instance 
 Local stack (managed by Docker Compose)
 - Prometheus: A time-series database that scrapes and stores metrics.
 - Loki: A log aggregation system designed to be cost-effective and easy to operate.
-- Process Exporter: Scrapes metrics from specified processes (by name) and exposes them for Prometheus.
+- Process Exporter: Scrapes metrics from specified processes and exposes them for Prometheus.
 - Promtail: The log collection agent that tails log files and pushes them to Loki.
 
 # External components
