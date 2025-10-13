@@ -30,5 +30,9 @@ ruler:
 
 limits_config:
   allow_structured_metadata: false
-  ingestion_rate_mb: 15
-  ingestion_burst_size_mb: 20
+  # retention_period: 697h
+  reject_old_samples: false
+  # reject_old_samples_max_age: 672h 
+
+ingester:
+  max_chunk_age: 800h

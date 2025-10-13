@@ -24,3 +24,169 @@ scrape_configs:
     labels:
       service: checkdoor_ai_agent_stream05
       __path__: /root/ai-agent-service/ai-agent-service/logs/checkdoor_ai_agent_stream05.log
+
+- job_name: camera_metrics
+  static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: camera-lab
+        instance: camera-01
+        __path__: /root/process-monitor/channel_0101.jsonl
+  pipeline_stages:
+    - json:
+        expressions:
+          ts: timestamp
+          fps: fps
+          win_packets: win_packets
+          win_lost: win_lost
+          win_late: win_late
+          win_dup: win_dup
+          win_loss_pct: win_loss_pct
+          acc_packets: acc_packets
+          acc_lost: acc_lost
+          acc_loss_pct: acc_loss_pct
+          avg_jitter_ms: avg_jitter_ms
+          bitrate_kbps: bitrate_kbps
+          rtp_in: rtp_in
+          rtp_gaps: rtp_gaps
+          rtp_ooo: rtp_ooo
+          buf_corrupted: buf_corrupted
+          buf_discont: buf_discont
+          buf_gapflag: buf_gapflag
+          gap_events: gap_events
+          qos_dropped: qos_dropped
+          late_avg_ms: late_avg_ms
+          late_max_ms: late_max_ms
+
+    - timestamp:
+        format: RFC3339Nano
+        source: ts
+
+    - metrics:
+        camera_fps:
+          type: Gauge
+          description: "Current frames per second"
+          source: fps
+          config:
+            action: set
+        camera_bitrate_kbps:
+          type: Gauge
+          description: "Current stream bitrate in kbps"
+          source: bitrate_kbps
+          config:
+            action: set
+        camera_win_packets:
+          type: Gauge
+          description: "Window packets received"
+          source: win_packets
+          config:
+            action: set
+        camera_win_lost:
+          type: Gauge
+          description: "Window packets lost"
+          source: win_lost
+          config:
+            action: set
+        camera_win_late:
+          type: Gauge
+          description: "Window packets late"
+          source: win_late
+          config:
+            action: set
+        camera_win_dup:
+          type: Gauge
+          description: "Window duplicate packets"
+          source: win_dup
+          config:
+            action: set
+        camera_win_loss_pct:
+          type: Gauge
+          description: "Window packet loss percentage"
+          source: win_loss_pct
+          config:
+            action: set
+        camera_acc_packets:
+          type: Gauge
+          description: "Accumulated packets received"
+          source: acc_packets
+          config:
+            action: set
+        camera_acc_lost:
+          type: Gauge
+          description: "Accumulated packets lost"
+          source: acc_lost
+          config:
+            action: set
+        camera_acc_loss_pct:
+          type: Gauge
+          description: "Accumulated packet loss percentage"
+          source: acc_loss_pct
+          config:
+            action: set
+        camera_avg_jitter_ms:
+          type: Gauge
+          description: "Average jitter in milliseconds"
+          source: avg_jitter_ms
+          config:
+            action: set
+        camera_rtp_in:
+          type: Gauge
+          description: "RTP packets in"
+          source: rtp_in
+          config:
+            action: set
+        camera_rtp_gaps:
+          type: Gauge
+          description: "RTP gaps detected"
+          source: rtp_gaps
+          config:
+            action: set
+        camera_rtp_ooo:
+          type: Gauge
+          description: "RTP out-of-order packets"
+          source: rtp_ooo
+          config:
+            action: set
+        camera_buf_corrupted:
+          type: Gauge
+          description: "Buffer corrupted count"
+          source: buf_corrupted
+          config:
+            action: set
+        camera_buf_discont:
+          type: Gauge
+          description: "Buffer discontinuity count"
+          source: buf_discont
+          config:
+            action: set
+        camera_buf_gapflag:
+          type: Gauge
+          description: "Buffer gap flag count"
+          source: buf_gapflag
+          config:
+            action: set
+        camera_gap_events:
+          type: Gauge
+          description: "Gap events count"
+          source: gap_events
+          config:
+            action: set
+        camera_qos_dropped:
+          type: Gauge
+          description: "QoS dropped packets"
+          source: qos_dropped
+          config:
+            action: set
+        camera_late_avg_ms:
+          type: Gauge
+          description: "Average lateness in milliseconds"
+          source: late_avg_ms
+          config:
+            action: set
+        camera_late_max_ms:
+          type: Gauge
+          description: "Maximum lateness in milliseconds"
+          source: late_max_ms
+          config:
+            action: set

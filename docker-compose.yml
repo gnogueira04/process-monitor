@@ -22,6 +22,7 @@ services:
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
+      - /root/test_gstreamer_debug:/root/test_gstreamer_debug
     networks:
       - lgtm-net
     restart: unless-stopped
@@ -47,6 +48,8 @@ services:
     volumes:
       - ./promtail:/etc/promtail
       - /root/ai-agent-service/ai-agent-service/logs:/root/ai-agent-service/ai-agent-service/logs
+      - /root/test_gstreamer_debug:/root/test_gstreamer_debug
+      - /root/process-monitor:/root/process-monitor
     networks:
       - lgtm-net
     restart: unless-stopped
