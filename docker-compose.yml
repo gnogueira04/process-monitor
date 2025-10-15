@@ -50,6 +50,7 @@ services:
       - /root/ai-agent-service/ai-agent-service/logs:/root/ai-agent-service/ai-agent-service/logs
       - /root/test_gstreamer_debug:/root/test_gstreamer_debug
       - /root/process-monitor:/root/process-monitor
+      - /root/aios-checking-stream-quality-services/csvs:/root/aios-checking-stream-quality-services/csvs
     networks:
       - lgtm-net
     restart: unless-stopped

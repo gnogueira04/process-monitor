@@ -31,8 +31,37 @@ scrape_configs:
         - localhost
       labels:
         job: camera-lab
-        instance: camera-01
-        __path__: /root/process-monitor/channel_0101.jsonl
+        camera_id: "stream101_selfcheck"
+        __path__: /root/aios-checking-stream-quality-services/csvs/stream101_selfcheck.jsonl
+  
+    - targets:
+        - localhost
+      labels:
+        job: camera-lab
+        camera_id: "stream501_caixa"
+        __path__: /root/aios-checking-stream-quality-services/csvs/stream501_caixa.jsonl
+    
+    - targets:
+        - localhost
+      labels:
+        job: camera-lab
+        camera_id: "stream601_entrada"
+        __path__: /root/aios-checking-stream-quality-services/csvs/stream601_entrada.jsonl
+
+    - targets:
+        - localhost
+      labels:
+        job: camera-lab
+        camera_id: "stream701_ilhasprod"
+        __path__: /root/aios-checking-stream-quality-services/csvs/stream701_ilhasprod.jsonl
+
+    - targets:
+        - localhost
+      labels:
+        job: camera-lab
+        camera_id: "stream1301_ilhasprod"
+        __path__: /root/aios-checking-stream-quality-services/csvs/stream1301_ilhasprod.jsonl
+  
   pipeline_stages:
     - json:
         expressions:

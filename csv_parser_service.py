@@ -1,13 +1,53 @@
 import csv
 import json
-import sys
 import time
 from datetime import datetime
 import argparse
 import itertools
-import os
+import logging
+from logging.handlers import TimedRotatingFileHandler
+import sys
 
-def tail_csv_and_convert(input_file, output_file, interval=5):
+def setup_logging(log_file):
+    """
+    Sets up a logger that rotates its log file daily at midnight.
+    Old log files are kept for 7 days.
+    """
+    # Get the logger instance
+    logger = logging.getLogger("CSVConverterLogger")
+    logger.setLevel(logging.INFO)  # Set the minimum level of messages to log
+
+    # Prevent the log messages from being duplicated in the console
+    logger.propagate = False
+
+    # Create a handler for rotating log files.
+    # 'midnight' specifies the rotation time.
+    # interval=1 means rotate every day.
+    # backupCount=7 means keep the last 7 log files.
+    handler = TimedRotatingFileHandler(
+        log_file, 
+        when='midnight', 
+        interval=1, 
+        backupCount=7
+    )
+    
+    # Define the format for the log messages
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+    handler.setFormatter(formatter)
+
+    # Add the handler to the logger if it doesn't have one already
+    if not logger.handlers:
+        logger.addHandler(handler)
+        # Also add a handler to print logs to the console for real-time feedback
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setFormatter(formatter)
+        logger.addHandler(console_handler)
+
+    return logger
+
+def tail_csv_and_convert(input_file, output_file, logger, interval=5):
     """
     Continuously monitors a CSV file for new lines, processes them, 
     and appends them to a JSON Lines file.
@@ -20,8 +60,9 @@ def tail_csv_and_convert(input_file, output_file, interval=5):
         'buf_gapflag', 'gap_events', 'qos_dropped', 'late_avg_ms', 'late_max_ms'
     ]
 
-    print(f"Starting to monitor '{input_file}' for new lines...")
-    print(f"New entries will be appended to '{output_file}'.")
+    logger.info(f"Starting to monitor '{input_file}' for new lines...")
+    logger.info(f"New entries will be appended to '{output_file}'.")
+    logger.info(f"Log messages will be written to the configured log file.")
     
     processed_line_count = 0
 
@@ -31,6 +72,7 @@ def tail_csv_and_convert(input_file, output_file, interval=5):
                 with open(input_file, mode='r', encoding='utf-8', newline='') as infile:
                     reader = csv.DictReader(infile)
                     
+                    # Skip lines that have already been processed
                     new_rows = itertools.islice(reader, processed_line_count, None)
                     
                     new_lines_found = 0
@@ -44,10 +86,10 @@ def tail_csv_and_convert(input_file, output_file, interval=5):
                                 try:
                                     original_ts_obj = datetime.fromisoformat(row['timestamp'].replace('Z', '+00:00'))
                                 except (ValueError, TypeError) as e:
-                                    print(f"Warning: Could not parse timestamp '{row.get('timestamp')}'. Skipping row. Error: {e}")
+                                    logger.warning(f"Could not parse timestamp '{row.get('timestamp')}'. Skipping row. Error: {e}")
                                     continue
                             else:
-                                print("Warning: 'timestamp' column not found. Skipping row.")
+                                logger.warning("'timestamp' column not found. Skipping row.")
                                 continue
 
                             for key, value in row.items():
@@ -66,19 +108,20 @@ def tail_csv_and_convert(input_file, output_file, interval=5):
                     
                     if new_lines_found > 0:
                         processed_line_count += new_lines_found
-                        print(f"Processed {new_lines_found} new line(s). Total processed: {processed_line_count}")
+                        logger.info(f"Processed {new_lines_found} new line(s). Total processed: {processed_line_count}")
                     else:
-                        print("No new lines detected. Waiting...")
+                        logger.info("No new lines detected. Waiting...")
 
             except FileNotFoundError:
-                print(f"Warning: Input file not found at '{input_file}'. Will retry in {interval} seconds.")
+                logger.warning(f"Input file not found at '{input_file}'. Will retry in {interval} seconds.")
             except Exception as e:
-                print(f"An error occurred: {e}. Will retry in {interval} seconds.")
+                # exc_info=True will log the full traceback for debugging
+                logger.error(f"An unhandled error occurred. Will retry in {interval} seconds.", exc_info=True)
 
             time.sleep(interval)
 
     except KeyboardInterrupt:
-        print("\nMonitoring stopped by user.")
+        logger.info("Monitoring stopped by user.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -88,8 +131,16 @@ if __name__ == "__main__":
     parser.add_argument("input_csv", help="The path to the source CSV file to monitor.")
     parser.add_argument("output_jsonl", help="The path to the destination JSONL file to be appended.")
     parser.add_argument("--interval", type=int, default=5, help="The interval in seconds to check for new lines (default: 5).")
+    parser.add_argument("--log-file", default="logs/csv_converter.log", help="Path to the log file (default: csv_converter.log).")
+
 
     args = parser.parse_args()
     
-    tail_csv_and_convert(args.input_csv, args.output_jsonl, args.interval)
-
+    # Set up logging before starting the main process
+    logger = setup_logging(args.log_file)
+    
+    try:
+        tail_csv_and_convert(args.input_csv, args.output_jsonl, logger, args.interval)
+    except Exception as e:
+        logger.critical("A critical error occurred in the main execution block.", exc_info=True)
+        sys.exit(1)
